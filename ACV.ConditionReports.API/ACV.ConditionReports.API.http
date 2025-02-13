@@ -1,0 +1,6 @@
+@ACV.ConditionReports.API_HostAddress = http://localhost:5245
+
+GET {{ACV.ConditionReports.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
