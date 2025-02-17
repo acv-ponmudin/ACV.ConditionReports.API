@@ -1,6 +1,4 @@
-﻿using ACV.ConditionReports.API.Helpers;
-using ACV.ConditionReports.API.Models.Request;
-using ACV.ConditionReports.API.Services;
+﻿using ACV.ConditionReports.API.Models.Request;
 using ACV.ConditionReports.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
