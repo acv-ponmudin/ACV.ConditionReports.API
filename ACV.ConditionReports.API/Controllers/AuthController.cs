@@ -2,6 +2,7 @@
 using ACV.ConditionReports.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace ACV.ConditionReports.API.Controllers
 {
@@ -11,31 +12,32 @@ namespace ACV.ConditionReports.API.Controllers
     public class AuthController : ControllerBase
     {
         IAuthService _authService;
-        
+
         public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-
         [HttpPost("login")]
         public IActionResult Post([FromBody] UserLogin user)
         {
-            if (!ModelState.IsValid)
+            string _token = "";
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                _token = _authService.Login(user.Username, user.Password);
+
+                if (string.IsNullOrEmpty(_token))
+                    return Unauthorized();
             }
-
-            string _token = _authService.Login(user.Username, user.Password);
-
-            if (string.IsNullOrEmpty(_token))
-                return Unauthorized();
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+            }
 
             return Ok(new { Token = _token });
         }

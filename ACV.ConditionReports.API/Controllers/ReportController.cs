@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ACV.ConditionReports.API.Models.Request;
+using ACV.ConditionReports.API.Repositories.Entities;
+using ACV.ConditionReports.API.Services.Interfaces;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace ACV.ConditionReports.API.Controllers
 {
@@ -8,21 +13,26 @@ namespace ACV.ConditionReports.API.Controllers
     [Authorize]
     public class ReportController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<string> Get()
+        IReportService _reportService;
+        IMapper _mapper;
+
+        public ReportController(IReportService reportService, IMapper mapper)
         {
-            return new string[] { "value1", "value2" };
+            _reportService = reportService;
+            _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public IEnumerable<WRK_DP_TIRE> Get()
         {
-            return "value";
+            return _reportService.GetTireDetails().Take(25).ToList<WRK_DP_TIRE>();
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void InsertConditionReport([FromBody] ConditionReport conditionReport)
         {
+            var a = _mapper.Map<InspectionCR>(conditionReport);
+            _reportService.Insert(a);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ACV.ConditionReports.API.Helpers
 {
-    public class Utils
+    public static class Utils
     {
         public static string GenerateJwtToken(string username, JwtSetting _jwtSetting)
         {
