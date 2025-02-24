@@ -3,6 +3,7 @@ using ACV.ConditionReports.API.Repositories.Interface;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Serilog;
+using Z.Dapper.Plus;
 
 namespace ACV.ConditionReports.API.Repositories
 {
@@ -75,8 +76,14 @@ namespace ACV.ConditionReports.API.Repositories
                                 labor_price = x.LaborPrice
                             }).ToList();
 
-                            
-                            _sqlConnection.Execute(damagesCRQuery, damages, trans);
+                            SqlMapper.AddTypeMap(typeof(string), System.Data.DbType.String);
+
+                            _sqlConnection.UseBulkOptions(x =>
+                            {
+                                x.DestinationTableName = "damages_cr";
+                                x.UseInternalTransaction = true;
+                                x.Transaction = trans;
+                            }).BulkInsert(damages);
 
                             trans.Commit();
                         }
@@ -87,9 +94,6 @@ namespace ACV.ConditionReports.API.Repositories
                             throw;
                         }
                     }
-
-
-                    IEnumerable<WRK_DP_TIRE> data = _sqlConnection.Query<WRK_DP_TIRE>(inspectionCRQuery);
                 }
             }
             catch (SqlException)
