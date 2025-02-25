@@ -24,10 +24,10 @@ namespace ACV.ConditionReports.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<WRK_DP_TIRE>> Get()
+        public async Task<ActionResult<IEnumerable<WRK_DP_TIRE>>> Get()
         {
             var result = await _reportService.GetTireDetails();
-            return result.Take(25).ToList<WRK_DP_TIRE>();
+            return Ok(result.Take(25).ToList<WRK_DP_TIRE>());
         }
 
         [HttpPost]
