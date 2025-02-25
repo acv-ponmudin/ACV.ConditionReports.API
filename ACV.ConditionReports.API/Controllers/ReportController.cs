@@ -4,7 +4,6 @@ using ACV.ConditionReports.API.Services.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
 
 namespace ACV.ConditionReports.API.Controllers
 {
@@ -15,24 +14,35 @@ namespace ACV.ConditionReports.API.Controllers
     {
         IReportService _reportService;
         IMapper _mapper;
+        Serilog.ILogger _logger;
 
-        public ReportController(IReportService reportService, IMapper mapper)
+        public ReportController(IReportService reportService, IMapper mapper, Serilog.ILogger logger)
         {
             _reportService = reportService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]
-        public IEnumerable<WRK_DP_TIRE> Get()
+        public async Task<IEnumerable<WRK_DP_TIRE>> Get()
         {
-            return _reportService.GetTireDetails().Take(25).ToList<WRK_DP_TIRE>();
+            var result = await _reportService.GetTireDetails();
+            return result.Take(25).ToList<WRK_DP_TIRE>();
         }
 
         [HttpPost]
-        public void InsertConditionReport([FromBody] ConditionReport conditionReport)
+        public async Task<IActionResult> InsertConditionReport([FromBody] ConditionReport conditionReport)
         {
-            var a = _mapper.Map<InspectionCR>(conditionReport);
-            _reportService.Insert(a);
+            try
+            {
+                var a = _mapper.Map<InspectionCR>(conditionReport);
+                await _reportService.Insert(a);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+            }
+            return Ok(new { message = "Report Added Successfully" });
         }
     }
 }

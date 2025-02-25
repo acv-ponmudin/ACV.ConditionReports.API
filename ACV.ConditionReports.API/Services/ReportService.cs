@@ -16,14 +16,21 @@ namespace ACV.ConditionReports.API.Services
             _repository = repository;
         }
 
-        public IEnumerable<WRK_DP_TIRE> GetTireDetails()
+        public async Task<IEnumerable<WRK_DP_TIRE>> GetTireDetails()
         {
-            return _getTire.GetTireDetails();
+            return await _getTire.GetTireDetails();
         }
 
-        public void Insert(InspectionCR inspectionCR)
+        public async Task Insert(InspectionCR inspectionCR)
         {
-            _repository.Insert(inspectionCR);
+            try
+            {
+                await _repository.Insert(inspectionCR);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using ACV.ConditionReports.API.Repositories;
 using ACV.ConditionReports.API.Repositories.Interface;
 using ACV.ConditionReports.API.AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,20 +80,23 @@ builder.Services.AddTransient<SqlConnection>(provider =>
     return new SqlConnection(connectionString);
 });
 
+builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);
+
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IReportService, ReportService>();
 
 builder.Services.AddTransient<GetTire>();
 builder.Services.AddTransient<IReportRepository, ReportRepository>();
 
+
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
-}
+//}
 
 app.UseHttpsRedirection();
 

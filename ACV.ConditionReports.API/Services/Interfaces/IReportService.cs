@@ -4,7 +4,7 @@ namespace ACV.ConditionReports.API.Services.Interfaces
 {
     public interface IReportService
     {
-        IEnumerable<WRK_DP_TIRE> GetTireDetails();
-        void Insert(InspectionCR inspectionCR);
+        Task<IEnumerable<WRK_DP_TIRE>> GetTireDetails();
+        Task Insert(InspectionCR inspectionCR);
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IAuthService
     {
-        string Login(string username, string password);
+        Task<string> Login(string username, string password);
     }
 }

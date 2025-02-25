@@ -14,10 +14,17 @@ namespace ACV.ConditionReports.API.Services
             _jwtSetting = jwtSetting.Value;
         }
 
-        public string Login(string username, string password)
+        public async Task<string> Login(string username, string password)
         {
-            if (username == "admin" && password == "password")
-                return Utils.GenerateJwtToken(username, _jwtSetting);
+            try
+            {
+                if (username == "admin" && password == "password")
+                    return Utils.GenerateJwtToken(username, _jwtSetting);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
             return "";
         }

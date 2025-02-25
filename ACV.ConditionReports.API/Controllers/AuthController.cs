@@ -19,7 +19,7 @@ namespace ACV.ConditionReports.API.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Post([FromBody] UserLogin user)
+        public async Task<IActionResult> Post([FromBody] UserLogin user)
         {
             string _token = "";
             try
@@ -29,7 +29,7 @@ namespace ACV.ConditionReports.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                _token = _authService.Login(user.Username, user.Password);
+                _token = await _authService.Login(user.Username, user.Password);
 
                 if (string.IsNullOrEmpty(_token))
                     return Unauthorized();
