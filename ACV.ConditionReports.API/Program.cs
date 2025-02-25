@@ -108,7 +108,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Information("Something went wrong while starting the application.");
+    Log.Information("Something went wrong while starting the application!");
     Log.Error(ex.ToString());
 }
 finally
