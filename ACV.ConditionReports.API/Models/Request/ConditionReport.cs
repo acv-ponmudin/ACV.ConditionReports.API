@@ -1,6 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-namespace ACV.ConditionReports.API.Models.Request 
+namespace ACV.ConditionReports.API.Models.Request
 {
     public class ConditionReport
     {
@@ -8,6 +9,8 @@ namespace ACV.ConditionReports.API.Models.Request
         public required int InspectionID { get; set; }
 
         [JsonPropertyName("vin")]
+        [Required(ErrorMessage = "Vin Number is mandaotry")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Not a valid VIN number")]
         public required string Vin { get; set; }
 
         [JsonPropertyName("year")]
@@ -56,6 +59,8 @@ namespace ACV.ConditionReports.API.Models.Request
         public required string ConditionReportURLPrivate { get; set; }
 
         [JsonPropertyName("condition_report_url_pdf")]
+        [Required(ErrorMessage = "Report PDF URL is mandatory")]
+        [StringLength(400)]
         public required string ConditionReportURLPDF { get; set; }
 
         [JsonPropertyName("damages")]
