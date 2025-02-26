@@ -85,18 +85,17 @@ builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IReportService, ReportService>();
 
-builder.Services.AddTransient<GetTire>();
 builder.Services.AddTransient<IReportRepository, ReportRepository>();
 
 
 var app = builder.Build();
 
-//if (app.Environment.IsDevelopment())
-//{
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
-//}
+}
 
 app.UseHttpsRedirection();
 

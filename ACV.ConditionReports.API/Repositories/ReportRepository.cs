@@ -2,8 +2,6 @@
 using ACV.ConditionReports.API.Repositories.Interface;
 using Dapper;
 using Microsoft.Data.SqlClient;
-using Serilog;
-using System.Runtime.CompilerServices;
 using Z.Dapper.Plus;
 
 namespace ACV.ConditionReports.API.Repositories
@@ -96,8 +94,9 @@ namespace ACV.ConditionReports.API.Repositories
                     }
                 }
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                _logger.Error(ex.ToString());
                 throw;
             }
         }

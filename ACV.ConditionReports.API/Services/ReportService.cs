@@ -7,18 +7,11 @@ namespace ACV.ConditionReports.API.Services
 {
     public class ReportService : IReportService
     {
-        GetTire _getTire;
         IReportRepository _repository;
 
-        public ReportService(GetTire getTire, IReportRepository repository)
+        public ReportService(IReportRepository repository)
         {
-            _getTire = getTire;
             _repository = repository;
-        }
-
-        public async Task<IEnumerable<WRK_DP_TIRE>> GetTireDetails()
-        {
-            return await _getTire.GetTireDetails();
         }
 
         public async Task Insert(InspectionCR inspectionCR)
