@@ -76,7 +76,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddTransient<SqlConnection>(provider =>
 {
     var options = provider.GetRequiredService<IOptions<DBSetting>>().Value;
-    var connectionString = options.InspectionDBConnection;
+    var connectionString = options.VREDBConnection;
     return new SqlConnection(connectionString);
 });
 

@@ -18,7 +18,7 @@ namespace ACV.ConditionReports.API.Services
         {
             try
             {
-                if (username == "admin" && password == "password")
+                if (username == "conditionreports" && password == "070f8286-02b5-4513-bfe7-219687b32be8")
                     return Utils.GenerateJwtToken(username, _jwtSetting);
             }
             catch (Exception)

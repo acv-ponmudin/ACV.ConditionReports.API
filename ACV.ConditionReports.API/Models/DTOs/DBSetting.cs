@@ -2,6 +2,6 @@
 {
     public class DBSetting
     {
-        public string InspectionDBConnection { get; set; }
+        public string VREDBConnection { get; set; }
     }
 }
